@@ -1,11 +1,18 @@
-import pandas_ta as ta
+import talib
+import pandas as pd
+def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
+    close = df['close'].astype(float)
 
-def add_indicators(df):
-    # Exponential Moving Average 20 y 50
-    df['EMA20'] = ta.ema(df['close'], length=20)
-    df['EMA50'] = ta.ema(df['close'], length=50)
-    
+    # EMA
+    df['EMA20'] = talib.EMA(close, timeperiod=20)
+    df['EMA50'] = talib.EMA(close, timeperiod=50)
+
     # RSI
-    df['RSI'] = ta.rsi(df['close'], length=14)
-    
+    df['RSI'] = talib.RSI(close, timeperiod=14)
+
+    # ATR (para medir volatilidad, útil para SL y TP dinámico)
+    high = df['high'].astype(float)
+    low = df['low'].astype(float)
+    df['ATR'] = talib.ATR(high, low, close, timeperiod=14)
+
     return df

@@ -1,0 +1,12 @@
+MetaTrader5==5.0.5328
+numpy==2.3.3
+pandas==2.3.3
+TA-Lib @ file:///D:/Data%20Analyst/TA_Lib-0.4.32-cp311-cp311-win_amd64.whl
+python-dotenv==1.1.1
+requests==2.32.5
+schedule==1.2.2
+python-telegram-bot==22.5
+streamlit==1.50.0
+matplotlib==3.10.7
+plotly==6.3.1
+scikit-learn==1.7.2
