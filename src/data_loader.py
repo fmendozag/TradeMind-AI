@@ -23,19 +23,16 @@ def initialize_mt5():
         raise RuntimeError(f"MT5 login failed: {mt5.last_error()}")
     print("✅ Connected to MetaTrader 5")
 
-def get_historical_data(symbol="EURUSD", timeframe=mt5.TIMEFRAME_M15, days=5):
-    """Get historical data from MT5"""
-    utc_from = datetime.now() - timedelta(days=days)
-    rates = mt5.copy_rates_from(symbol, timeframe, datetime.now(), days * 24 * 4)  # 4 candles/hour for M15
+def get_historical_data(symbol="XAUUSD+", timeframe=mt5.TIMEFRAME_M1, n_bars=500):
+    rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, n_bars)
 
-    if rates is None:
-        raise RuntimeError(f"Failed to get data for {symbol}: {mt5.last_error()}")
+    if rates is None or len(rates) == 0:
+        raise RuntimeError(f"❌ Error al obtener datos de {symbol}: {mt5.last_error()}")
 
     df = pd.DataFrame(rates)
     df['time'] = pd.to_datetime(df['time'], unit='s')
-    df = df[['time', 'open', 'high', 'low', 'close', 'tick_volume']]
+    return df[['time', 'open', 'high', 'low', 'close', 'tick_volume']]
 
-    return df
 
 def shutdown_mt5():
     """Shutdown MT5 connection"""

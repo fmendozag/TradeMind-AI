@@ -22,11 +22,11 @@ def initialize_mt5():
 
     print("✅ Connected to MetaTrader 5")
 
-def get_historical_data(symbol="EURUSD", timeframe=mt5.TIMEFRAME_M15, days=5):
-    """Get historical data from MT5"""
-    bars = days * 24 * 4  # Para M15
-    rates = mt5.copy_rates_from(symbol, timeframe, datetime.now(), bars)
-    if rates is None:
+def get_historical_data(symbol="EURUSD", timeframe=mt5.TIMEFRAME_M15, n_bars=100):
+    """Get the last `n_bars` candles of historical data from MT5"""
+    rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, n_bars)
+    
+    if rates is None or len(rates) == 0:
         raise RuntimeError(f"Failed to get data for {symbol}: {mt5.last_error()}")
 
     df = pd.DataFrame(rates)

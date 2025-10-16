@@ -1,5 +1,6 @@
 import talib
 import pandas as pd
+
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     close = df['close'].astype(float)
 
